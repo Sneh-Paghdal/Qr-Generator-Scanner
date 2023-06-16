@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qrgenerator/ExtraPages/scanned_page.dart';
 import 'package:qrgenerator/Utils/constant.dart';
@@ -80,61 +81,68 @@ class _scanner_pageState extends State<scanner_page> {
 
   //======================================================================
 
+  redirectToPermissionSettings() async {
+    await openAppSettings();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: constant.screenBackClr,
-      floatingActionButton: Container(
-        color: Colors.transparent,
-        height: MediaQuery.of(context).size.height / 2 - 250,
-        width: 230,
-        alignment: Alignment.topCenter,
+      floatingActionButton: Visibility(
+        visible: isPermissionGranted,
         child: Container(
-          height: 60,
-          padding: EdgeInsets.only(top: 9),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.4),
-            borderRadius: BorderRadius.circular(30)
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () async {
-                  await controller?.toggleFlash();
-                  setState(() {});
-                },
-                child: Column(
-                  children: [
-                    Icon(Icons.flashlight_on,color: Colors.white,),
-                    Text("Flash",style: TextStyle(color: Colors.white,fontSize: 12),)
-                  ],
+          color: Colors.transparent,
+          height: MediaQuery.of(context).size.height / 2 - 250,
+          width: 230,
+          alignment: Alignment.topCenter,
+          child: Container(
+            height: 60,
+            padding: EdgeInsets.only(top: 9),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(30)
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await controller?.toggleFlash();
+                    setState(() {});
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.flashlight_on,color: Colors.white,),
+                      Text("Flash",style: TextStyle(color: Colors.white,fontSize: 12),)
+                    ],
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () async {
-                  await controller?.resumeCamera();
-                },
-                child: Column(
-                  children: [
-                    Icon(Icons.play_circle,color: Colors.white,),
-                    Text("Resume",style: TextStyle(color: Colors.white,fontSize: 12),)
-                  ],
+                InkWell(
+                  onTap: () async {
+                    await controller?.resumeCamera();
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.play_circle,color: Colors.white,),
+                      Text("Resume",style: TextStyle(color: Colors.white,fontSize: 12),)
+                    ],
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () async {
-                  await controller?.pauseCamera();
-                },
-                child: Column(
-                  children: [
-                    Icon(Icons.pause_circle_filled_sharp,color: Colors.white,),
-                    Text("Pause",style: TextStyle(color: Colors.white,fontSize: 12),)
-                  ],
-                ),
-              )
-            ],
+                InkWell(
+                  onTap: () async {
+                    await controller?.pauseCamera();
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.pause_circle_filled_sharp,color: Colors.white,),
+                      Text("Pause",style: TextStyle(color: Colors.white,fontSize: 12),)
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -155,16 +163,16 @@ class _scanner_pageState extends State<scanner_page> {
   Widget notPermittedWidget(){
     return Center(
       child: Container(
-        height: 280,
+        height: 285,
         child: Column(
           children: [
             Text("Permission Required",style: TextStyle(color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight,fontSize: constant.headingTxtSize),),
             Container(height: 20,),
             Container(margin: EdgeInsets.only(left: 30,right: 30),child: Text("Camera Permission is required to scan QR codes/barcodes",style: TextStyle(color: constant.secondaryFontClr),textAlign: TextAlign.center,)),
             Container(height: 20,),
-            Text("1.Open Settings",style: TextStyle(color: constant.secondaryFontClr),textAlign: TextAlign.center,),
-            Text("2.Tap Permissions",style: TextStyle(color: constant.secondaryFontClr),textAlign: TextAlign.center,),
-            Text("1.Open Settings",style: TextStyle(color: constant.secondaryFontClr),textAlign: TextAlign.center,),
+            Text("1.Open Settings",style: TextStyle(color: constant.secondaryFontClr,fontSize: 15),textAlign: TextAlign.center,),
+            Text("2.Tap Permissions",style: TextStyle(color: constant.secondaryFontClr,fontSize: 15),textAlign: TextAlign.center,),
+            Text("1.Open Settings",style: TextStyle(color: constant.secondaryFontClr,fontSize: 15),textAlign: TextAlign.center,),
             Container(
               margin: EdgeInsets.only(left: 40,right: 40,top: 35),
               child: ElevatedButton(
@@ -176,7 +184,8 @@ class _scanner_pageState extends State<scanner_page> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                 ),
-                onPressed: () {
+                onPressed: (){
+                 redirectToPermissionSettings();
                 },
                 child: Container(
                   alignment: Alignment.center,
