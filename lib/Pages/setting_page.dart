@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qrgenerator/ExtraPages/privacy_policy_page.dart';
+import 'package:qrgenerator/ExtraPages/terms_page.dart';
 import 'package:qrgenerator/Utils/constant.dart';
 
 class setting_page extends StatefulWidget {
@@ -175,9 +177,14 @@ class _setting_pageState extends State<setting_page> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10,bottom: 10),
-                        child: Text("Privacy Policy",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => privacy_policy_page()));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10,bottom: 10),
+                          child: Text("Privacy Policy",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                        ),
                       )
                     ],
                   ),
@@ -191,9 +198,14 @@ class _setting_pageState extends State<setting_page> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10,bottom: 10),
-                        child: Text("Terms And Condition",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => terms_page()));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10,bottom: 10),
+                          child: Text("Terms And Condition",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                        ),
                       )
                     ],
                   ),
