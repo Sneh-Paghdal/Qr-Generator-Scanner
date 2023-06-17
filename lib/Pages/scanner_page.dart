@@ -38,7 +38,7 @@ class _scanner_pageState extends State<scanner_page> {
         controller?.pauseCamera();
         if(result != null){
           String code = result!.code ?? 'Data not found';
-          Navigator.push(context, MaterialPageRoute(builder: (context) => scanned_page(qrString: code, qrType: describeEnum(result!.format))));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => scanned_page(qrString: code,isScannerPage: true,)));
         }
       });
     });

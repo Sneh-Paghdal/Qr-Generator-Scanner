@@ -24,182 +24,214 @@ class _setting_pageState extends State<setting_page> {
         backgroundColor: constant.screenBackClr,
         title: Text("Settings",style: TextStyle(fontSize: constant.headingTxtSize,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(height: 20,),
-          Container(
-            margin: EdgeInsets.only(left: 10),
-            child: Text("General Settings",style: TextStyle(color: Colors.blue,fontWeight: constant.heighlitedFontWeight),),
-          ),
-          Container(
-            // height: 60,
-            decoration: BoxDecoration(
-                color: constant.secondaryBackClr,
-                borderRadius: BorderRadius.circular(10)
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(height: 20,),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text("General Settings",style: TextStyle(color: Colors.blue,fontWeight: constant.heighlitedFontWeight),),
             ),
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          child: Text("Auto-copied to clipboard",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
-                        )
-                      ],
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(right: 10),
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: Switch(
-                            onChanged: clipSwitch,
-                            value: isClipSwitched,
-                            activeColor: Colors.grey,
-                            activeTrackColor: Colors.white,
-                            inactiveThumbColor: Colors.white,
-                            inactiveTrackColor: Colors.grey,
+            Container(
+              // height: 60,
+              decoration: BoxDecoration(
+                  color: constant.secondaryBackClr,
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
                           ),
-                        )),
-                  ],
-                ),
-                Divider(
-                  indent: 10,
-                  endIndent: 10,
-                  color: constant.screenBackClr,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          child: Text("Save History",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
-                        )
-                      ],
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(right: 10),
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: Switch(
-                            onChanged: clipSwitch,
-                            value: isClipSwitched,
-                            activeColor: Colors.grey,
-                            activeTrackColor: Colors.white,
-                            inactiveThumbColor: Colors.white,
-                            inactiveTrackColor: Colors.grey,
+                          Container(
+                            child: Text("Auto-copied to clipboard",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                          )
+                        ],
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(right: 10),
+                          child: Transform.scale(
+                            scale: 0.8,
+                            child: Switch(
+                              onChanged: clipSwitch,
+                              value: isClipSwitched,
+                              activeColor: Colors.grey,
+                              activeTrackColor: Colors.white,
+                              inactiveThumbColor: Colors.white,
+                              inactiveTrackColor: Colors.grey,
+                            ),
+                          )),
+                    ],
+                  ),
+                  Divider(
+                    indent: 10,
+                    endIndent: 10,
+                    color: constant.screenBackClr,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
                           ),
-                        )),
-                  ],
-                ),
-              ],
+                          Container(
+                            child: Text("Save History",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                          )
+                        ],
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(right: 10),
+                          child: Transform.scale(
+                            scale: 0.8,
+                            child: Switch(
+                              onChanged: clipSwitch,
+                              value: isClipSwitched,
+                              activeColor: Colors.grey,
+                              activeTrackColor: Colors.white,
+                              inactiveThumbColor: Colors.white,
+                              inactiveTrackColor: Colors.grey,
+                            ),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 15,),
-          Container(
-            margin: EdgeInsets.only(left: 10),
-            child: Text("Help",style: TextStyle(color: Colors.blue,fontWeight: constant.heighlitedFontWeight),),
-          ),
-          Container(
-            // height: 60,
-            decoration: BoxDecoration(
-                color: constant.secondaryBackClr,
-                borderRadius: BorderRadius.circular(10)
+            SizedBox(height: 15,),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Text("Help",style: TextStyle(color: Colors.blue,fontWeight: constant.heighlitedFontWeight),),
             ),
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10,bottom: 10),
-                      child: Text("Rate Us",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
-                    )
-                  ],
-                ),
-                Divider(
-                  indent: 10,
-                  endIndent: 10,
-                  color: constant.screenBackClr,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10,bottom: 10),
-                      child: Text("Check Our Apps",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
-                    )
-                  ],
-                ),
-                Divider(
-                  indent: 10,
-                  endIndent: 10,
-                  color: constant.screenBackClr,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10,bottom: 10),
-                      child: Text("About Us",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
-                    )
-                  ],
-                ),
-                Divider(
-                  indent: 10,
-                  endIndent: 10,
-                  color: constant.screenBackClr,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10,bottom: 10),
-                      child: Text("Privacy Policy",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
-                    )
-                  ],
-                ),
-                Divider(
-                  indent: 10,
-                  endIndent: 10,
-                  color: constant.screenBackClr,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10,bottom: 10),
-                      child: Text("Terms And Condition",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
-                    )
-                  ],
-                ),
-              ],
+            Container(
+              // height: 60,
+              decoration: BoxDecoration(
+                  color: constant.secondaryBackClr,
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        child: Text("Rate Us",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      )
+                    ],
+                  ),
+                  Divider(
+                    indent: 10,
+                    endIndent: 10,
+                    color: constant.screenBackClr,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        child: Text("Check Our Apps",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      )
+                    ],
+                  ),
+                  Divider(
+                    indent: 10,
+                    endIndent: 10,
+                    color: constant.screenBackClr,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        child: Text("About Us",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      )
+                    ],
+                  ),
+                  Divider(
+                    indent: 10,
+                    endIndent: 10,
+                    color: constant.screenBackClr,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        child: Text("Privacy Policy",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      )
+                    ],
+                  ),
+                  Divider(
+                    indent: 10,
+                    endIndent: 10,
+                    color: constant.screenBackClr,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        child: Text("Terms And Condition",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Container(
+              // height: 60,
+              decoration: BoxDecoration(
+                  color: constant.secondaryBackClr,
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        child: Text("Version : 1.0.0",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+                alignment: Alignment.center,
+                margin: EdgeInsets.all(10),
+                child: Text("Made In India With ❤️",style: TextStyle(fontSize: 16,fontWeight: constant.heighlitedFontWeight,color: constant.primaryFontClr),)
+            )
+          ],
+        ),
       ),
     );
   }

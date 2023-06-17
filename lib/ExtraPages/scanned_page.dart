@@ -1,16 +1,20 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:qrgenerator/Utils/constant.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
+
 
 class scanned_page extends StatefulWidget {
   final String qrString;
-  final String qrType;
-  const scanned_page({Key? key, required this.qrString, required this.qrType})
+  final bool isScannerPage;
+  const scanned_page({Key? key, required this.qrString, required this.isScannerPage,})
       : super(key: key);
 
   @override
@@ -19,10 +23,25 @@ class scanned_page extends StatefulWidget {
 
 class _scanned_pageState extends State<scanned_page> {
 
+  bool isIntenetOn = false;
+
   @override
   void initState() {
     super.initState();
-    storeInHistory();
+    internetChecker();
+    if(widget.isScannerPage){
+      storeInHistory();
+    }
+    // getQrCode();
+  }
+
+  internetChecker() async {
+    isIntenetOn = await checkInternetConnection();
+    setState(() {
+    });
+    if(!isIntenetOn){
+      showToast(context, "You Are Offline!", true, Colors.red, 100);
+    }
   }
 
   bool isWebsite(String string) {
@@ -71,29 +90,34 @@ class _scanned_pageState extends State<scanned_page> {
         //email app is not opened
       }
     }else if(form == "SEARCH"){
-      if (!await launchUrl(
-        Uri.parse("http:${widget.qrString}"),
-        mode: LaunchMode.externalApplication,
-      )) {
-        throw Exception('Could not launch url');
+      bool isNetOn = await checkInternetConnection();
+      if(isNetOn == true) {
+        if (!await launchUrl(
+          Uri.parse("http:${widget.qrString}"),
+          mode: LaunchMode.externalApplication,
+        )) {
+          throw Exception('Could not launch url');
+        }
+      } else{
+        showToast(context, "You Are Offline!", true, Colors.red, 100);
       }
-    }else if(form == "COPY"){
-      try {
-        await Clipboard.setData(
-            ClipboardData(
-                text: widget
-                    .qrString));
-        showToast(
-            context, "Link Copied!",
-            true, Colors.black,
-            100);
-      } catch (e) {
-        print(e);
-        showToast(
-            context, "${e}",
-            false, Colors.black,
-            100);
-      }
+      }else if(form == "COPY"){
+        try {
+          await Clipboard.setData(
+              ClipboardData(
+                  text: widget
+                      .qrString));
+          showToast(
+              context, "Link Copied!",
+              true, Colors.black,
+              100);
+        } catch (e) {
+          print(e);
+          showToast(
+              context, "${e}",
+              false, Colors.black,
+              100);
+        }
     }else if(form == "SHARE"){
       Share.share(widget.qrString);
     }else if(form == "CALL"){
@@ -115,7 +139,8 @@ class _scanned_pageState extends State<scanned_page> {
     var obj = {
       "type" : (isWebsite(widget.qrString)) ? "URL" : (isMobileNumber(widget.qrString)) ? "Mobile No." : "Text",
       "code" : widget.qrString,
-      "time" : "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}"
+      "time" : "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
+      "clockTime" : DateFormat('hh:mm').format(DateTime.now())
     };
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? historyStr = prefs.getString("history") ?? null;
@@ -404,7 +429,12 @@ class _scanned_pageState extends State<scanned_page> {
                 ) : Container(),
               ],
             ),
-          )
+          ),
+          (isIntenetOn) ?
+          Container(
+            margin: EdgeInsets.only(top: 30),
+            child: Image.network('https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${Uri.encodeComponent(widget.qrString)}'),
+          ) : Container(),
         ],
       ),
     );
@@ -424,4 +454,18 @@ void showToast(BuildContext context,message,bool isBottomsheet,Color color,int h
       behavior: SnackBarBehavior.floating,
     ),
   );
+}
+
+Future<bool> checkInternetConnection() async {
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  } on SocketException catch (_) {
+    return false;
+  }
 }
