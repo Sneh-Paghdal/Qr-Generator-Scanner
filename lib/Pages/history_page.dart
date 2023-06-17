@@ -107,7 +107,7 @@ class _history_pageState extends State<history_page> {
                 itemBuilder: (context, innerIndex) {
                   final obj = objectsForTime[innerIndex];
                   return Container(
-                    height: 60,
+                    padding: EdgeInsets.only(top: 10,bottom: 10),
                     margin: EdgeInsets.only(top: 5,bottom: 5,left: 10,right: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),

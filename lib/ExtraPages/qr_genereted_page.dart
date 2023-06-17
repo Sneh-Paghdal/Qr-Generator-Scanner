@@ -72,23 +72,27 @@ class _qr_genereted_pageState extends State<qr_genereted_page> {
   List<dynamic> historyList = [];
 
   storeInHistory() async {
-    var obj = {
-      "type" : widget.qrType,
-      "code" : widget.qrString,
-      "time" : "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
-      "clockTime" : DateFormat('hh:mm').format(DateTime.now())
-    };
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? historyStr = prefs.getString("generatedHistory") ?? null;
-    if(historyStr != null){
-      historyList = jsonDecode(historyStr);
-      historyList.add(obj);
-      String finalHistory = jsonEncode(historyList);
-      prefs.setString("generatedHistory", finalHistory);
-    }else{
-      historyList.add(obj);
-      historyStr = jsonEncode(historyList);
-      prefs.setString("generatedHistory", historyStr);
+    bool isHistoryOn = prefs.getBool("isHistory") ?? true;
+    if(isHistoryOn){
+      var obj = {
+        "type" : widget.qrType,
+        "code" : widget.qrString,
+        "time" : "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
+        "clockTime" : DateFormat('hh:mm').format(DateTime.now())
+      };
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? historyStr = prefs.getString("generatedHistory") ?? null;
+      if(historyStr != null){
+        historyList = jsonDecode(historyStr);
+        historyList.add(obj);
+        String finalHistory = jsonEncode(historyList);
+        prefs.setString("generatedHistory", finalHistory);
+      }else{
+        historyList.add(obj);
+        historyStr = jsonEncode(historyList);
+        prefs.setString("generatedHistory", historyStr);
+      }
     }
   }
 

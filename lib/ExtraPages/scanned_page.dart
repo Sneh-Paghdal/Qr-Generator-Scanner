@@ -31,6 +31,7 @@ class _scanned_pageState extends State<scanned_page> {
     internetChecker();
     if(widget.isScannerPage){
       storeInHistory();
+      autoCopySetting();
     }
     // getQrCode();
   }
@@ -133,26 +134,53 @@ class _scanned_pageState extends State<scanned_page> {
     }
   }
 
+  autoCopySetting() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isCopyOn = prefs.getBool('isCopy') ?? false;
+    if(isCopyOn){
+      try {
+        await Clipboard.setData(
+            ClipboardData(
+                text: widget
+                    .qrString));
+        showToast(
+            context, "Copied to clipboard!",
+            true, Colors.black,
+            100);
+      } catch (e) {
+        print(e);
+        showToast(
+            context, "${e}",
+            false, Colors.black,
+            100);
+      }
+    }
+  }
+
   List<dynamic> historyList = [];
 
   storeInHistory() async {
-    var obj = {
-      "type" : (isWebsite(widget.qrString)) ? "URL" : (isMobileNumber(widget.qrString)) ? "Mobile No." : "Text",
-      "code" : widget.qrString,
-      "time" : "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
-      "clockTime" : DateFormat('hh:mm').format(DateTime.now())
-    };
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? historyStr = prefs.getString("history") ?? null;
-    if(historyStr != null){
-      historyList = jsonDecode(historyStr);
-      historyList.add(obj);
-      String finalHistory = jsonEncode(historyList);
-      prefs.setString("history", finalHistory);
-    }else{
-      historyList.add(obj);
-      historyStr = jsonEncode(historyList);
-      prefs.setString("history", historyStr);
+    bool isHistoryOn = prefs.getBool("isHistory") ?? true;
+    if(isHistoryOn){
+      var obj = {
+        "type" : (isWebsite(widget.qrString)) ? "URL" : (isMobileNumber(widget.qrString)) ? "Mobile No." : "Text",
+        "code" : widget.qrString,
+        "time" : "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
+        "clockTime" : DateFormat('hh:mm').format(DateTime.now())
+      };
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? historyStr = prefs.getString("history") ?? null;
+      if(historyStr != null){
+        historyList = jsonDecode(historyStr);
+        historyList.add(obj);
+        String finalHistory = jsonEncode(historyList);
+        prefs.setString("history", finalHistory);
+      }else{
+        historyList.add(obj);
+        historyStr = jsonEncode(historyList);
+        prefs.setString("history", historyStr);
+      }
     }
   }
 

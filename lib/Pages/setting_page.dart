@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:qrgenerator/ExtraPages/about_us.dart';
 import 'package:qrgenerator/ExtraPages/privacy_policy_page.dart';
 import 'package:qrgenerator/ExtraPages/terms_page.dart';
 import 'package:qrgenerator/Utils/constant.dart';
+import 'package:rating_dialog/rating_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:store_redirect/store_redirect.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class setting_page extends StatefulWidget {
   const setting_page({Key? key}) : super(key: key);
@@ -12,10 +17,50 @@ class setting_page extends StatefulWidget {
 
 class _setting_pageState extends State<setting_page> {
 
-  bool isClipSwitched = false;
+  bool isCopySwitchedOn = false;
+  bool isHistorySwitchedOn = false;
 
-  clipSwitch(bool value){
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
+  historySwitch(bool value) async {
+    setState(() {
+        isHistorySwitchedOn = value;
+    });
+    if(value){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isHistory", true);
+    }else{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isHistory", false);
+    }
+  }
+
+  copySwitch(bool value) async {
+    setState(() {
+        isCopySwitchedOn = value;
+    });
+    if(value){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isCopy", true);
+      print(value);
+    }else{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isCopy", false);
+    }
+  }
+
+  fetchData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCopySwitchedOn = prefs.getBool("isCopy") ?? false;
+      isHistorySwitchedOn = prefs.getBool("isHistory") ?? true;
+      print(isCopySwitchedOn);
+      print(isHistorySwitchedOn);
+    });
   }
 
   @override
@@ -63,8 +108,8 @@ class _setting_pageState extends State<setting_page> {
                           child: Transform.scale(
                             scale: 0.8,
                             child: Switch(
-                              onChanged: clipSwitch,
-                              value: isClipSwitched,
+                              onChanged: copySwitch,
+                              value: isCopySwitchedOn,
                               activeColor: Colors.grey,
                               activeTrackColor: Colors.white,
                               inactiveThumbColor: Colors.white,
@@ -96,8 +141,8 @@ class _setting_pageState extends State<setting_page> {
                           child: Transform.scale(
                             scale: 0.8,
                             child: Switch(
-                              onChanged: clipSwitch,
-                              value: isClipSwitched,
+                              onChanged: historySwitch,
+                              value: isHistorySwitchedOn,
                               activeColor: Colors.grey,
                               activeTrackColor: Colors.white,
                               inactiveThumbColor: Colors.white,
@@ -129,9 +174,17 @@ class _setting_pageState extends State<setting_page> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10,bottom: 10),
-                        child: Text("Rate Us",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      InkWell(
+                        onTap: (){
+                          showDialog(
+                            context: context,
+                            builder: (context) => _dialog,
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10,bottom: 10),
+                          child: Text("Rate Us",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                        ),
                       )
                     ],
                   ),
@@ -145,9 +198,19 @@ class _setting_pageState extends State<setting_page> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10,bottom: 10),
-                        child: Text("Check Our Apps",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      InkWell(
+                        onTap: () async {
+                          const url = 'https://play.google.com/store/apps/developer?id=Jasneh Studio'; // Replace with your Play Store developer URL
+                          if (await canLaunch(url)) {
+                          await launch(url);
+                          } else {
+                          throw 'Could not launch $url';
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10,bottom: 10),
+                          child: Text("Check Our Apps",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                        ),
                       )
                     ],
                   ),
@@ -161,9 +224,14 @@ class _setting_pageState extends State<setting_page> {
                       SizedBox(
                         width: 10,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10,bottom: 10),
-                        child: Text("About Us",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => about_us()));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10,bottom: 10),
+                          child: Text("About Us",style: TextStyle(fontSize: 15,color: constant.primaryFontClr,fontWeight: constant.heighlitedFontWeight),),
+                        ),
                       )
                     ],
                   ),
@@ -247,4 +315,24 @@ class _setting_pageState extends State<setting_page> {
       ),
     );
   }
+
+  final _dialog = RatingDialog(
+    title: Text('Rate Us On Play Store',style: TextStyle(fontSize: 17),),
+    message:
+    Text('Rate us with 5 shining stars and light up our day!',style: TextStyle(fontSize: 15),),
+    // your app's logo?
+    image: const FlutterLogo(size: 60),
+    initialRating: 5,
+    onCancelled: () => print('cancelled'),
+    starSize: 35,
+    enableComment: false,
+    onSubmitted: (response) {
+      print('rating: ${response.rating}, comment: ${response.comment}');
+      // if (response.rating < 3.0) {
+      // } else {
+      // }
+      StoreRedirect.redirect(androidAppId: 'qrcodescanner.barcodescanner.qrscanner.qrcodereader.qrgenerator.jasnehstudio',iOSAppId: 'qrcodescanner.barcodescanner.qrscanner.qrcodereader.qrgenerator.jasnehstudio');
+    }, submitButtonText: 'Submit',
+  );
+
 }

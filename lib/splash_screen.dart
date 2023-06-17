@@ -73,11 +73,14 @@ class _splash_screenState extends State<splash_screen> with SingleTickerProvider
         ),
       ),
       body: Center(
-          child : SlideTransition(
-            position: _offsetAnimation,
-            child: FadeInImage(
-              placeholder: AssetImage('assets/images/splashLogo.png'),
-              image: AssetImage('assets/images/splashLogo.png'),
+          child : Container(
+            width: 250,
+            child: SlideTransition(
+              position: _offsetAnimation,
+              child: FadeInImage(
+                placeholder: AssetImage('assets/images/splashLogo.png'),
+                image: AssetImage('assets/images/splashLogo.png'),
+              ),
             ),
           )),
     );

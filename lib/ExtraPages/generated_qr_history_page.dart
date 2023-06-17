@@ -108,8 +108,9 @@ class _generated_qr_history_pageState extends State<generated_qr_history_page> {
                 itemBuilder: (context, innerIndex) {
                   final obj = objectsForTime[innerIndex];
                   return Container(
-                    height: 60,
+                    // height: 60,
                     margin: EdgeInsets.only(top: 5,bottom: 5,left: 10,right: 10),
+                    padding: EdgeInsets.only(top: 10,bottom: 10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: constant.secondaryBackClr

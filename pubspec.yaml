@@ -44,6 +44,8 @@ dependencies:
   http:
   flutter_file_downloader: ^1.1.2
   path_provider:
+  store_redirect: ^2.0.1
+  rating_dialog: ^2.0.1
 
 dev_dependencies:
   flutter_test:
