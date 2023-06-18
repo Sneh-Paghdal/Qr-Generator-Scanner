@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'QR Generator',
+      title: 'Free QR Scanner & Generator',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -47,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> _widgetOptions = <Widget>[
     scanner_page(),
-    // dummy_qr_scanner(),
     history_page(),
     generator_page(),
     setting_page()
@@ -62,9 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: (widget.selectedIndex == 0) ? true : false,
         bottomNavigationBar: Container(
           height: 60,
-          color: constant.screenBackClr,
+          color: (widget.selectedIndex == 0) ? Colors.transparent : constant.screenBackClr,
           child: ClipRRect(
             borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
             child: BottomNavigationBar(

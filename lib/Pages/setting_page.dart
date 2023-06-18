@@ -321,7 +321,7 @@ class _setting_pageState extends State<setting_page> {
     message:
     Text('Rate us with 5 shining stars and light up our day!',style: TextStyle(fontSize: 15),),
     // your app's logo?
-    image: const FlutterLogo(size: 60),
+    image: Image.asset('assets/images/appLogo.png',width: 60,height: 60,),
     initialRating: 5,
     onCancelled: () => print('cancelled'),
     starSize: 35,

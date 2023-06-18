@@ -62,7 +62,7 @@ class _scanned_pageState extends State<scanned_page> {
         scheme: 'sms',
         path: '',
         queryParameters: <String, String>{
-          'body': Uri.decodeComponent('${widget.qrString}'),
+          'body': Uri.decodeComponent('${widget.qrString} \n \n \n Scanned By https://play.google.com/store/apps/details?id=qrcodescanner.barcodescanner.qrscanner.qrcodereader.qrgenerator.jasnehstudio'),
         },
       );
       if (await launchUrl(smsLaunchUri)) {
@@ -81,8 +81,8 @@ class _scanned_pageState extends State<scanned_page> {
         scheme: 'mailto',
         path: '@example.com',
         query: encodeQueryParameters(<String, String>{
-          'subject': 'From Jasneh Studio',
-          'body' : '${widget.qrString}'
+          'subject': '',
+          'body' : '${widget.qrString} \n \n Scanned By https://play.google.com/store/apps/details?id=qrcodescanner.barcodescanner.qrscanner.qrcodereader.qrgenerator.jasnehstudio'
         }),
       );
       if (await launchUrl(emailLaunchUri)) {

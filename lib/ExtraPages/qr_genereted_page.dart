@@ -60,13 +60,23 @@ class _qr_genereted_pageState extends State<qr_genereted_page> {
     setState(() {
       isLoading = false;
     });
-    Share.shareFiles([path],);
+    Share.shareFiles([path],text: '*Create. Share. Expand*. The unlimited free QR code generator and scanner. Start generating now at \n https://play.google.com/store/apps/details?id=qrcodescanner.barcodescanner.qrscanner.qrcodereader.qrgenerator.jasnehstudio');
   }
 
   @override
   void initState() {
     super.initState();
     storeInHistory();
+    internetChecker();
+  }
+
+  internetChecker() async {
+    bool isIntenetOn = await checkInternetConnection();
+    setState(() {
+    });
+    if(!isIntenetOn){
+      showToast(context, "You Are Offline!", true, Colors.red, 100);
+    }
   }
 
   List<dynamic> historyList = [];
@@ -94,6 +104,7 @@ class _qr_genereted_pageState extends State<qr_genereted_page> {
         prefs.setString("generatedHistory", historyStr);
       }
     }
+
   }
 
   @override
