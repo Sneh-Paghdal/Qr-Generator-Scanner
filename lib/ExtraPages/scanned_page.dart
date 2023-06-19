@@ -94,7 +94,7 @@ class _scanned_pageState extends State<scanned_page> {
       bool isNetOn = await checkInternetConnection();
       if(isNetOn == true) {
         if (!await launchUrl(
-          Uri.parse("http:${widget.qrString}"),
+          Uri.parse("${widget.qrString}"),
           mode: LaunchMode.externalApplication,
         )) {
           throw Exception('Could not launch url');
